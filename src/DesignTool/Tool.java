@@ -4,11 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Tool extends JFrame implements ActionListener, Runnable {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+
+    private ArrayList<ArrayList<String>> commands = new ArrayList<>();
 
     private JPanel pnlMain;
     private JPanel pnlBtns;
@@ -18,6 +22,57 @@ public class Tool extends JFrame implements ActionListener, Runnable {
 
     public Tool(String title) throws HeadlessException {
         super(title);
+    }
+
+    private void executeCommand (ArrayList<String> command) {
+        switch (command.get(0)) {
+            case "LINE":
+                drawLine(new ArrayList<Float>() {{
+                    add(Float.valueOf(command.get(1)));
+                    add(Float.valueOf(command.get(2)));
+                    add(Float.valueOf(command.get(3)));
+                    add(Float.valueOf(command.get(4)));
+                }});
+                break;
+            case "RECTANGLE":
+                drawRectangle(new ArrayList<Float>() {{
+                    add(Float.valueOf(command.get(1)));
+                    add(Float.valueOf(command.get(2)));
+                    add(Float.valueOf(command.get(3)));
+                    add(Float.valueOf(command.get(4)));
+                }});
+                break;
+            case "PLOT":
+                break;
+            case "ELLIPSE":
+                break;
+            case "POLYGON":
+                break;
+            case "FILL":
+                break;
+            case "PEN":
+                break;
+        }
+    }
+
+    private void drawLine(ArrayList<Float> values) {
+
+    }
+
+    private void drawRectangle(ArrayList<Float> values) {
+
+    }
+
+    private void drawPlot(ArrayList<Float> values) {
+
+    }
+
+    private void drawEllipse(ArrayList<Float> values) {
+
+    }
+
+    private void drawPolygon(ArrayList<Float> values) {
+
     }
 
     private JButton createButton(String str) {
