@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
+import java.io.*;
 import java.util.ArrayList;
 
 public class Tool extends JFrame implements ActionListener, Runnable {
@@ -12,6 +12,7 @@ public class Tool extends JFrame implements ActionListener, Runnable {
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
 
+    private PrintWriter outputFile;
     private ArrayList<ArrayList<String>> commands = new ArrayList<>();
     private String penColor = "#000000";
 
@@ -25,45 +26,56 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         super(title);
     }
 
-    private void executeCommand (ArrayList<String> command) {
+    private void saveFile() throws IOException {
+        outputFile.close();
+    }
+
+    private void setupOutput() throws IOException {
+        outputFile = new PrintWriter(new FileWriter("output.vec", false));
+    }
+
+    private void openFile() {
+        
+    }
+
+    private void runFile() throws IOException {
+        for (ArrayList<String> command : commands) {
+            executeCommand(command);
+        }
+    }
+
+    private void executeCommand(ArrayList<String> command) throws IOException {
         switch (command.get(0)) {
             case "LINE":
-                drawLine(new ArrayList<Float>() {{
-                    add(Float.valueOf(command.get(1)));
-                    add(Float.valueOf(command.get(2)));
-                    add(Float.valueOf(command.get(3)));
-                    add(Float.valueOf(command.get(4)));
-                }});
+                drawLine(Float.valueOf(command.get(1)),
+                        Float.valueOf(command.get(2)),
+                        Float.valueOf(command.get(3)),
+                        Float.valueOf(command.get(4)));
                 break;
             case "RECTANGLE":
-                drawRectangle(new ArrayList<Float>() {{
-                    add(Float.valueOf(command.get(1)));
-                    add(Float.valueOf(command.get(2)));
-                    add(Float.valueOf(command.get(3)));
-                    add(Float.valueOf(command.get(4)));
-                }});
+                drawRectangle(Float.valueOf(command.get(1)),
+                        Float.valueOf(command.get(2)),
+                        Float.valueOf(command.get(3)),
+                        Float.valueOf(command.get(4)));
                 break;
             case "PLOT":
-                drawPlot(new ArrayList<Float>() {{
-                    add(Float.valueOf(command.get(1)));
-                    add(Float.valueOf(command.get(2)));
-                }});
+                drawPlot(Float.valueOf(command.get(1)),
+                        Float.valueOf(command.get(2)));
                 break;
             case "ELLIPSE":
-                drawEllipse(new ArrayList<Float>() {{
-                    add(Float.valueOf(command.get(1)));
-                    add(Float.valueOf(command.get(2)));
-                    add(Float.valueOf(command.get(3)));
-                    add(Float.valueOf(command.get(4)));
-                }});
+                drawEllipse(Float.valueOf(command.get(1)),
+                        Float.valueOf(command.get(2)),
+                        Float.valueOf(command.get(3)),
+                        Float.valueOf(command.get(4)));
                 break;
             case "POLYGON":
                 ArrayList<Float> values = new ArrayList<>();
-                for(String value : command) {
-                    if(value != "POLYGON") {
+                for (String value : command) {
+                    if (value != "POLYGON") {
                         values.add(Float.valueOf(value));
                     }
                 }
+                drawPolygon(values);
                 break;
             case "FILL":
                 break;
@@ -73,40 +85,40 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         }
     }
 
-    private void drawLine(ArrayList<Float> values) {
+    private void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
+    }
+
+    private void drawRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
+    }
+
+    private void drawPlot(Float x, Float y) throws IOException {
+        outputFile.printf("LINE %.2f %.2f", x, y);
+    }
+
+    private void drawEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
+    }
+
+    private void drawPolygon(ArrayList<Float> values) throws IOException {
 
     }
 
-    private void drawRectangle(ArrayList<Float> values) {
-
-    }
-
-    private void drawPlot(ArrayList<Float> values) {
-
-    }
-
-    private void drawEllipse(ArrayList<Float> values) {
-
-    }
-
-    private void drawPolygon(ArrayList<Float> values) {
-
-    }
-
-    private JButton createButton(String str) {
+    private JButton createButton(String str) throws IOException {
         JButton button = new JButton();
         button.setText(str);
         button.addActionListener(this);
         return button;
     }
 
-    private JPanel createPanel(Color c) {
+    private JPanel createPanel(Color c) throws IOException {
         JPanel panel = new JPanel();
         panel.setBackground(c);
         return panel;
     }
 
-    private void setupPanels() {
+    private void setupPanels() throws IOException {
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -118,7 +130,7 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         setVisible(true);
     }
 
-    private void setupGUI() {
+    private void setupGUI() throws IOException {
         setupPanels();
         btnLoad = createButton("Load");
         btnSave = createButton("Save");
@@ -161,7 +173,11 @@ public class Tool extends JFrame implements ActionListener, Runnable {
 
     @Override
     public void run() {
-        setupGUI();
+        try {
+            setupGUI();
+        } catch (IOException e) {
+
+        }
     }
 
     public static void main(String[] args) {
