@@ -40,7 +40,7 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         pnlMain = createPanel(Color.WHITE);
         pnlBtns = createPanel(Color.lightGray);
         getContentPane().add(pnlMain, BorderLayout.CENTER);
-        getContentPane().add(pnlBtns, BorderLayout.PAGE_END);
+        getContentPane().add(pnlBtns, BorderLayout.WEST);
         repaint();
         setVisible(true);
     }
@@ -50,6 +50,28 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         btnLoad = createButton("Load");
         btnSave = createButton("Save");
         btnLine = createButton("Line");
+        layoutButtonPanel();
+    }
+
+    private void layoutButtonPanel() {
+        GridBagLayout layout = new GridBagLayout();
+        pnlBtns.setLayout(layout);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.NONE;
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.weightx = 100;
+        constraints.weighty = 100;
+        addToPanel(pnlBtns, btnLoad, constraints, 0, 0, 1, 1);
+        addToPanel(pnlBtns, btnSave, constraints, 0, 1, 1, 1);
+        addToPanel(pnlBtns, btnLine, constraints, 0, 2, 1, 1);
+    }
+
+    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
+        constraints.gridx = x;
+        constraints.gridy = y;
+        constraints.gridwidth = w;
+        constraints.gridheight = h;
+        jp.add(c, constraints);
     }
 
     @Override
