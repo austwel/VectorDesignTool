@@ -13,6 +13,7 @@ public class Tool extends JFrame implements ActionListener, Runnable {
     public static final int HEIGHT = 500;
 
     private ArrayList<ArrayList<String>> commands = new ArrayList<>();
+    private String penColor = "#000000";
 
     private JPanel pnlMain;
     private JPanel pnlBtns;
@@ -43,14 +44,31 @@ public class Tool extends JFrame implements ActionListener, Runnable {
                 }});
                 break;
             case "PLOT":
+                drawPlot(new ArrayList<Float>() {{
+                    add(Float.valueOf(command.get(1)));
+                    add(Float.valueOf(command.get(2)));
+                }});
                 break;
             case "ELLIPSE":
+                drawEllipse(new ArrayList<Float>() {{
+                    add(Float.valueOf(command.get(1)));
+                    add(Float.valueOf(command.get(2)));
+                    add(Float.valueOf(command.get(3)));
+                    add(Float.valueOf(command.get(4)));
+                }});
                 break;
             case "POLYGON":
+                ArrayList<Float> values = new ArrayList<>();
+                for(String value : command) {
+                    if(value != "POLYGON") {
+                        values.add(Float.valueOf(value));
+                    }
+                }
                 break;
             case "FILL":
                 break;
             case "PEN":
+                penColor = command.get(1);
                 break;
         }
     }
