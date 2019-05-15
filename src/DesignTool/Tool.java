@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Tool extends JFrame implements ActionListener{
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
     public JFrame frame;
+
+    private static Color penColor = Color.decode("#000000");
 
     private JPanel pnlMain;
     private JPanel pnlMenu;
@@ -25,7 +28,35 @@ public class Tool extends JFrame implements ActionListener{
         frame.setLayout(new BorderLayout());
     }
 
-    private JButton createButton(String str) {
+    public static void changePen(String color) {
+        penColor = Color.decode(color);
+    }
+
+    public static void startFill(String color) {
+        //
+    }
+
+    public static void drawLine(Float x1, Float y1, Float x2, Float y2) {
+        //
+    }
+
+    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
+        //
+    }
+
+    public static void drawPlot(Float x, Float y) {
+        //
+    }
+
+    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
+        //
+    }
+
+    public static void drawPolygon(ArrayList<Float> values) {
+        //
+    }
+
+    private JButton createButton(String str){
         JButton button = new JButton();
         button.setText(str);
         button.addActionListener(this);
@@ -60,19 +91,6 @@ public class Tool extends JFrame implements ActionListener{
         pnlMain.repaint();
     }
 
-    private void layoutButtonPanel() {
-        GridBagLayout layout = new GridBagLayout();
-        pnlMenu.setLayout(layout);
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.weightx = 100;
-        constraints.weighty = 100;
-        addToPanel(pnlMenu, btnLoad, constraints, 0, 0, 1, 1);
-        addToPanel(pnlMenu, btnSave, constraints, 0, 1, 1, 1);
-        addToPanel(pnlMenu, btnLine, constraints, 0, 2, 1, 1);
-    }
-
     private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
         constraints.gridx = x;
         constraints.gridy = y;
@@ -80,7 +98,6 @@ public class Tool extends JFrame implements ActionListener{
         constraints.gridheight = h;
         jp.add(c, constraints);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -94,9 +111,8 @@ public class Tool extends JFrame implements ActionListener{
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Tool tool = new Tool("Test");
         tool.setupGUI();
     }
 }
-
