@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.ArrayList;
 
 public class Tool extends JFrame implements ActionListener{
@@ -92,19 +91,6 @@ public class Tool extends JFrame implements ActionListener{
         pnlMain.repaint();
     }
 
-    private void layoutButtonPanel() {
-        GridBagLayout layout = new GridBagLayout();
-        pnlMenu.setLayout(layout);
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.CENTER;
-        constraints.weightx = 100;
-        constraints.weighty = 100;
-        addToPanel(pnlMenu, btnLoad, constraints, 0, 0, 1, 1);
-        addToPanel(pnlMenu, btnSave, constraints, 0, 1, 1, 1);
-        addToPanel(pnlMenu, btnLine, constraints, 0, 2, 1, 1);
-    }
-
     private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
         constraints.gridx = x;
         constraints.gridy = y;
@@ -112,7 +98,6 @@ public class Tool extends JFrame implements ActionListener{
         constraints.gridheight = h;
         jp.add(c, constraints);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
