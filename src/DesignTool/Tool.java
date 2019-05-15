@@ -7,22 +7,26 @@ import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Tool extends JFrame implements ActionListener, Runnable {
+public class Tool extends JFrame implements ActionListener{
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+    public JFrame frame;
 
-    private static PrintWriter outputFile;
     private static Color penColor = Color.decode("#000000");
 
     private JPanel pnlMain;
-    private JPanel pnlBtns;
+    private JPanel pnlMenu;
+
     private JButton btnLoad;
     private JButton btnSave;
     private JButton btnLine;
 
-    public Tool(String title) throws HeadlessException {
-        super(title);
+    public Tool(String title){
+        frame = new JFrame(title);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
     }
 
     public static void changePen(String color) {
@@ -33,70 +37,72 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         //
     }
 
-    public static void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
+    public static void drawLine(Float x1, Float y1, Float x2, Float y2) {
         //
     }
 
-    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
+    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
         //
     }
 
-    public static void drawPlot(Float x, Float y) throws IOException {
+    public static void drawPlot(Float x, Float y) {
         //
     }
 
-    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
+    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
         //
     }
 
-    public static void drawPolygon(ArrayList<Float> values) throws IOException {
+    public static void drawPolygon(ArrayList<Float> values) {
         //
     }
 
-    private JButton createButton(String str) throws IOException {
+    private JButton createButton(String str){
         JButton button = new JButton();
         button.setText(str);
         button.addActionListener(this);
         return button;
     }
 
-    private JPanel createPanel(Color c) throws IOException {
-        JPanel panel = new JPanel();
-        panel.setBackground(c);
-        return panel;
+    public void setupPanels() {
+        pnlMain = new JPanel(frame.getLayout());
+        pnlMain.setBackground(Color.WHITE);
+        pnlMenu = new JPanel(new GridLayout(10, 1, 3, 3));
+        pnlMenu.setBackground(Color.RED);
+        pnlMenu.setBounds(10, 150, 100, 150);
+        frame.add(pnlMain, BorderLayout.CENTER);
+        frame.add(pnlMenu, BorderLayout.WEST);
+        frame.repaint();
+        frame.setVisible(true);
     }
 
-    private void setupPanels() throws IOException {
-        setSize(WIDTH, HEIGHT);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-        pnlMain = createPanel(Color.WHITE);
-        pnlBtns = createPanel(Color.lightGray);
-        getContentPane().add(pnlMain, BorderLayout.CENTER);
-        getContentPane().add(pnlBtns, BorderLayout.WEST);
-        repaint();
-        setVisible(true);
-    }
-
-    private void setupGUI() throws IOException {
+    public void setupGUI() {
         setupPanels();
         btnLoad = createButton("Load");
+        btnLoad.setBounds(5, 1, 20, 1);
         btnSave = createButton("Save");
+        btnSave.setBounds(5, 2, 20, 1);
         btnLine = createButton("Line");
-        layoutButtonPanel();
+        btnLine.setBounds(5, 3, 20 ,1);
+        pnlMenu.add(btnLoad);
+        pnlMenu.add(btnSave);
+        pnlMenu.add(btnLine);
+        frame.repaint();
+        pnlMenu.repaint();
+        pnlMain.repaint();
     }
 
     private void layoutButtonPanel() {
         GridBagLayout layout = new GridBagLayout();
-        pnlBtns.setLayout(layout);
+        pnlMenu.setLayout(layout);
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.NONE;
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.weightx = 100;
         constraints.weighty = 100;
-        addToPanel(pnlBtns, btnLoad, constraints, 0, 0, 1, 1);
-        addToPanel(pnlBtns, btnSave, constraints, 0, 1, 1, 1);
-        addToPanel(pnlBtns, btnLine, constraints, 0, 2, 1, 1);
+        addToPanel(pnlMenu, btnLoad, constraints, 0, 0, 1, 1);
+        addToPanel(pnlMenu, btnSave, constraints, 0, 1, 1, 1);
+        addToPanel(pnlMenu, btnLine, constraints, 0, 2, 1, 1);
     }
 
     private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
@@ -106,6 +112,7 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         constraints.gridheight = h;
         jp.add(c, constraints);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -119,16 +126,8 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        try {
-            setupGUI();
-        } catch (IOException e) {
-
-        }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Tool("Vector Design Tool"));
+    public static void main(String[] args){
+        Tool tool = new Tool("Test");
+        tool.setupGUI();
     }
 }
