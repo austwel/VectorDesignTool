@@ -1,13 +1,12 @@
 package DesignTool;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 public class vecFile {
 
     private PrintWriter outputFile;
+    private FileReader inputFile;
     private ArrayList<ArrayList<String>> commands = new ArrayList<>();
 
     public void saveFile() throws IOException {
@@ -18,8 +17,12 @@ public class vecFile {
         outputFile = new PrintWriter(new FileWriter("output.vec", false));
     }
 
-    public void openFile() {
-
+    public void openFile(String filepath) throws IOException {
+        File file = new File(filepath);
+        if (file.exists()) {
+            inputFile = new FileReader(file);
+            runFile();
+        }
     }
 
     public void runFile() throws IOException {
@@ -54,7 +57,7 @@ public class vecFile {
 
     public void outputPolygon(ArrayList<Float> values) throws IOException {
         String outputString = "POLYGON";
-        for(Float value : values) {
+        for (Float value : values) {
             outputString += " " + value.toString();
         }
         outputFile.printf(outputString);
