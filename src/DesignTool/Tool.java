@@ -12,9 +12,8 @@ public class Tool extends JFrame implements ActionListener, Runnable {
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
 
-    private PrintWriter outputFile;
-    private ArrayList<ArrayList<String>> commands = new ArrayList<>();
-    private String penColor = "#000000";
+    private static PrintWriter outputFile;
+    private static Color penColor = Color.decode("#000000");
 
     private JPanel pnlMain;
     private JPanel pnlBtns;
@@ -26,83 +25,32 @@ public class Tool extends JFrame implements ActionListener, Runnable {
         super(title);
     }
 
-    private void saveFile() throws IOException {
-        outputFile.close();
+    public static void changePen(String color) {
+        penColor = Color.decode(color);
     }
 
-    private void setupOutput() throws IOException {
-        outputFile = new PrintWriter(new FileWriter("output.vec", false));
+    public static void startFill(String color) {
+        //
     }
 
-    private void openFile() {
-        
+    public static void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        //
     }
 
-    private void runFile() throws IOException {
-        for (ArrayList<String> command : commands) {
-            executeCommand(command);
-        }
+    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        //
     }
 
-    private void executeCommand(ArrayList<String> command) throws IOException {
-        switch (command.get(0)) {
-            case "LINE":
-                drawLine(Float.valueOf(command.get(1)),
-                        Float.valueOf(command.get(2)),
-                        Float.valueOf(command.get(3)),
-                        Float.valueOf(command.get(4)));
-                break;
-            case "RECTANGLE":
-                drawRectangle(Float.valueOf(command.get(1)),
-                        Float.valueOf(command.get(2)),
-                        Float.valueOf(command.get(3)),
-                        Float.valueOf(command.get(4)));
-                break;
-            case "PLOT":
-                drawPlot(Float.valueOf(command.get(1)),
-                        Float.valueOf(command.get(2)));
-                break;
-            case "ELLIPSE":
-                drawEllipse(Float.valueOf(command.get(1)),
-                        Float.valueOf(command.get(2)),
-                        Float.valueOf(command.get(3)),
-                        Float.valueOf(command.get(4)));
-                break;
-            case "POLYGON":
-                ArrayList<Float> values = new ArrayList<>();
-                for (String value : command) {
-                    if (value != "POLYGON") {
-                        values.add(Float.valueOf(value));
-                    }
-                }
-                drawPolygon(values);
-                break;
-            case "FILL":
-                break;
-            case "PEN":
-                penColor = command.get(1);
-                break;
-        }
+    public static void drawPlot(Float x, Float y) throws IOException {
+        //
     }
 
-    private void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
+    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
+        //
     }
 
-    private void drawRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
-    }
-
-    private void drawPlot(Float x, Float y) throws IOException {
-        outputFile.printf("LINE %.2f %.2f", x, y);
-    }
-
-    private void drawEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("LINE %.2f %.2f %.2f %.2f", x1, x2, y1, y2);
-    }
-
-    private void drawPolygon(ArrayList<Float> values) throws IOException {
-
+    public static void drawPolygon(ArrayList<Float> values) throws IOException {
+        //
     }
 
     private JButton createButton(String str) throws IOException {
