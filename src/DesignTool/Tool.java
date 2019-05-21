@@ -1,18 +1,30 @@
 package DesignTool;
 
+import javax.imageio.ImageTypeSpecifier;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.util.ArrayList;
 
-public class Tool extends JFrame implements ActionListener{
+//https://docs.oracle.com/javase/tutorial/2d/advanced/transforming.html transforms
+
+public class Tool extends JFrame implements ActionListener {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
+    public static float scale = 400;
     public JFrame frame;
 
-    private static Color penColor = Color.decode("#000000");
+    private static BufferedImage buf;
+    private static Graphics2D g;
+    private static Color penColor = new Color(0, 0, 0);
+
 
     private JPanel pnlMain;
     private JPanel pnlMenu;
@@ -39,7 +51,7 @@ public class Tool extends JFrame implements ActionListener{
     private JButton btnLightGrey;
     private JButton btnWhite;
 
-    public Tool(String title){
+    public Tool(String title) {
         frame = new JFrame(title);
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,26 +67,38 @@ public class Tool extends JFrame implements ActionListener{
     }
 
     public static void drawLine(Float x1, Float y1, Float x2, Float y2) {
-        //
+        g.drawLine(Math.round(x1 * scale), Math.round(y1 * scale), Math.round(x2 * scale), Math.round(y2 * scale));
     }
 
     public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
-        //
+        g.drawRect(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
     }
 
     public static void drawPlot(Float x, Float y) {
-        //
+        g.drawLine(Math.round(x), Math.round(y), Math.round(x), Math.round(y));
     }
 
     public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
-        //
+        g.drawOval(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
     }
 
     public static void drawPolygon(ArrayList<Float> values) {
-        //
+        int[] xArray = new int[values.size()/2];
+        int[] yArray = new int[values.size()/2];
+        for (int i = 0, len = values.size(); i < len; i++) {
+            switch (i%2) {
+                case 0:
+                    xArray[i/2] = Math.round(values.get(i));
+                    break;
+                case 1:
+                    yArray[i-1/2] = Math.round(values.get(i));
+                    break;
+            }
+        }
+        g.drawPolygon(xArray, yArray, values.size());
     }
 
-    private JButton createButton(String str){
+    private JButton createButton(String str) {
         JButton button = new JButton();
         button.setText(str);
         button.addActionListener(this);
@@ -97,14 +121,20 @@ public class Tool extends JFrame implements ActionListener{
         frame.setVisible(true);
     }
 
+    public void setupBufferedImage() {
+        buf = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
+        g = buf.createGraphics();
+    }
+
     public void setupGUI() {
         setupPanels();
+        setupBufferedImage();
         btnLoad = createButton("Load");
         btnLoad.setBounds(5, 1, 20, 1);
         btnSave = createButton("Save");
         btnSave.setBounds(5, 2, 20, 1);
         btnLine = createButton("Line");
-        btnLine.setBounds(5, 3, 20 ,1);
+        btnLine.setBounds(5, 3, 20, 1);
         btnRed = createButton("");
         btnRed.setBackground(Color.RED);
         btnOrange = createButton("");
@@ -129,6 +159,7 @@ public class Tool extends JFrame implements ActionListener{
         jp.add(c, constraints);
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
@@ -141,8 +172,11 @@ public class Tool extends JFrame implements ActionListener{
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Tool tool = new Tool("Test");
         tool.setupGUI();
+        for (; ; ) {
+
+        }
     }
 }
