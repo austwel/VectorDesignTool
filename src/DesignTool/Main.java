@@ -40,12 +40,12 @@ public class Main {
     }
 
     public static void startFill(String color) throws IOException {
-        tool.startFill(color.substring(1));
+        tool.startFill(color);
         v.outputFill(color);
     }
 
     public static void changePen(String color) throws IOException {
-        tool.changePen(color.substring(1));
+        tool.changePen(color);
         v.outputPen(color);
     }
 
