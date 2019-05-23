@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-//https://docs.oracle.com/javase/tutorial/2d/advanced/transforming.html transforms
-
 public class GUI extends JFrame implements ActionListener {
 
     public static final int WIDTH = 500;
