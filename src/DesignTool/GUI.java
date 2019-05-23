@@ -73,40 +73,40 @@ public class GUI extends JFrame implements ActionListener {
     public void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
         Graphics g = buf.createGraphics();
         g.setColor(penColor);
-        g.drawRect(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
+        g.drawRect(Math.round(x1 * scale), Math.round(y1 * scale), Math.round((x2-x1) * scale), Math.round((y2-y1) * scale));
         pnlMain.repaint();
     }
 
     public void drawPlot(Float x, Float y) {
         Graphics g = buf.createGraphics();
         g.setColor(penColor);
-        g.drawLine(Math.round(x), Math.round(y), Math.round(x), Math.round(y));
+        g.drawLine(Math.round(x * scale), Math.round(y * scale), Math.round(x * scale), Math.round(y * scale));
         pnlMain.repaint();
     }
 
     public void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
         Graphics g = buf.createGraphics();
         g.setColor(penColor);
-        g.drawOval(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
+        g.drawOval(Math.round(x1 * scale), Math.round(y1 * scale), Math.round((x2-x1) * scale), Math.round((y2-y1) * scale));
         pnlMain.repaint();
     }
 
     public void drawPolygon(ArrayList<Float> values) {
-        Graphics g = buf.createGraphics();
+        Graphics2D g = buf.createGraphics();
         g.setColor(penColor);
-        int[] xArray = new int[values.size()/2];
-        int[] yArray = new int[values.size()/2];
+        int xArray[] = new int[values.size()/2];
+        int yArray[] = new int[values.size()/2];
         for (int i = 0, len = values.size(); i < len; i++) {
             switch (i%2) {
                 case 0:
-                    xArray[i/2] = Math.round(values.get(i));
+                    xArray[i/2] = Math.round(values.get(i) * scale);
                     break;
                 case 1:
-                    yArray[i-1/2] = Math.round(values.get(i));
+                    yArray[(i-1)/2] = Math.round(values.get(i) * scale);
                     break;
             }
         }
-        g.drawPolygon(xArray, yArray, values.size());
+        g.draw(new Polygon(xArray,yArray,values.size()/2));
         pnlMain.repaint();
     }
 
@@ -237,14 +237,6 @@ public class GUI extends JFrame implements ActionListener {
         pnlMenu.repaint();
         pnlMain.add(new CustomPaintComponent());
         pnlMain.repaint();
-    }
-
-    private void addToPanel(JPanel jp, Component c, GridBagConstraints constraints, int x, int y, int w, int h) {
-        constraints.gridx = x;
-        constraints.gridy = y;
-        constraints.gridwidth = w;
-        constraints.gridheight = h;
-        jp.add(c, constraints);
     }
 
     @Override

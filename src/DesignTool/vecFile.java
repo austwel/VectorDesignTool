@@ -53,11 +53,11 @@ public class vecFile {
     }
 
     public static void outputPen(String color) {
-        //outputFile.printf("PEN %s", color);
+        outputFile.printf("PEN %s", color);
     }
 
     public void outputFill(String color) {
-        //outputFile.printf("FILL %s", color);
+        outputFile.printf("FILL %s", color);
     }
 
     public void outputLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
@@ -132,10 +132,12 @@ public class vecFile {
                 break;
             case "POLYGON":
                 ArrayList<Float> values = new ArrayList<>();
+                int valueNum = 0;
                 for (String value : command) {
-                    if (value != "POLYGON") {
-                        values.add(Float.valueOf(value));
+                    if (valueNum>0) {
+                        values.add(Float.parseFloat(value));
                     }
+                    valueNum++;
                 }
                 outputPolygon(values);
                 Main.drawPolygon(values);
