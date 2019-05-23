@@ -2,12 +2,19 @@ package DesignTool;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class vecFile {
 
-    private PrintWriter outputFile;
-    private FileReader inputFile;
-    private ArrayList<ArrayList<String>> commands = new ArrayList<>();
+    private static PrintWriter outputFile;
+    private static FileReader inputFile;
+    private static ArrayList<ArrayList<String>> commands = new ArrayList<>();
+
+    public vecFile() throws IOException {
+        setupOutput();
+    }
 
     public void saveFile() throws IOException {
         outputFile.close();
@@ -21,6 +28,20 @@ public class vecFile {
         File file = new File(filepath);
         if (file.exists()) {
             inputFile = new FileReader(file);
+            int c;
+            String s = "";
+            while((c=inputFile.read())!=-1) {
+                s += (char) c;
+            }
+            String[] commandList = s.split("\n");
+            for(String str : commandList) {
+                String[] strs = str.split(" ");
+                ArrayList<String> command = new ArrayList<>();
+                for(String value : strs) {
+                    command.add(value);
+                }
+                commands.add(command);
+            }
             runFile();
         }
     }
@@ -31,12 +52,12 @@ public class vecFile {
         }
     }
 
-    public void outputPen(String color) {
-        outputFile.printf("PEN %s", color);
+    public static void outputPen(String color) {
+        //outputFile.printf("PEN %s", color);
     }
 
     public void outputFill(String color) {
-        outputFile.printf("FILL %s", color);
+        //outputFile.printf("FILL %s", color);
     }
 
     public void outputLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
@@ -71,7 +92,7 @@ public class vecFile {
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
                         Float.valueOf(command.get(4)));
-                Tool.drawLine(
+                 Main.drawLine(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
@@ -83,7 +104,7 @@ public class vecFile {
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
                         Float.valueOf(command.get(4)));
-                Tool.drawRectangle(
+                Main.drawRectangle(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
@@ -93,7 +114,7 @@ public class vecFile {
                 outputPlot(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)));
-                Tool.drawPlot(
+                Main.drawPlot(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)));
                 break;
@@ -103,7 +124,7 @@ public class vecFile {
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
                         Float.valueOf(command.get(4)));
-                Tool.drawEllipse(
+                Main.drawEllipse(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
@@ -117,15 +138,15 @@ public class vecFile {
                     }
                 }
                 outputPolygon(values);
-                Tool.drawPolygon(values);
+                Main.drawPolygon(values);
                 break;
             case "FILL":
-                outputFill(command.get(1));
-                Tool.startFill(command.get(1));
+                //outputFill(command.get(1));
+                //Main.startFill(command.get(1));
                 break;
             case "PEN":
                 outputPen(command.get(1));
-                Tool.changePen(command.get(1));
+                Main.changePen(command.get(1));
                 break;
         }
     }

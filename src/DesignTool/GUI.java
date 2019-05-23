@@ -1,20 +1,15 @@
 package DesignTool;
 
-import javax.imageio.ImageTypeSpecifier;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.util.ArrayList;
 
 //https://docs.oracle.com/javase/tutorial/2d/advanced/transforming.html transforms
 
-public class Tool extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener {
 
     public static final int WIDTH = 500;
     public static final int HEIGHT = 500;
@@ -22,7 +17,6 @@ public class Tool extends JFrame implements ActionListener {
     public JFrame frame;
 
     private static BufferedImage buf;
-    private static Graphics2D g;
     private static Color penColor = new Color(0, 0, 0);
 
 
@@ -50,38 +44,56 @@ public class Tool extends JFrame implements ActionListener {
     private JButton btnLightGrey;
     private JButton btnWhite;
 
-    public Tool(String title) {
+    public GUI(String title) {
         frame = new JFrame(title);
         frame.setSize(WIDTH, HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
     }
 
-    public static void changePen(String color) {
-        penColor = Color.decode(color);
+    public static BufferedImage getImage() {
+        return buf;
     }
 
-    public static void startFill(String color) {
+    public void changePen(String color) {
+        penColor = Color.decode("#" + color.substring(0, 6));
+    }
+
+    public void startFill(String color) {
         //
     }
 
-    public static void drawLine(Float x1, Float y1, Float x2, Float y2) {
+    public void drawLine(Float x1, Float y1, Float x2, Float y2) {
+        Graphics g = buf.createGraphics();
+        g.setColor(penColor);
         g.drawLine(Math.round(x1 * scale), Math.round(y1 * scale), Math.round(x2 * scale), Math.round(y2 * scale));
+        pnlMain.repaint();
     }
 
-    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
+    public void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
+        Graphics g = buf.createGraphics();
+        g.setColor(penColor);
         g.drawRect(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
+        pnlMain.repaint();
     }
 
-    public static void drawPlot(Float x, Float y) {
+    public void drawPlot(Float x, Float y) {
+        Graphics g = buf.createGraphics();
+        g.setColor(penColor);
         g.drawLine(Math.round(x), Math.round(y), Math.round(x), Math.round(y));
+        pnlMain.repaint();
     }
 
-    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
+    public void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
+        Graphics g = buf.createGraphics();
+        g.setColor(penColor);
         g.drawOval(Math.round(x1), Math.round(y1), Math.round(x2-x1), Math.round(y2-y1));
+        pnlMain.repaint();
     }
 
-    public static void drawPolygon(ArrayList<Float> values) {
+    public void drawPolygon(ArrayList<Float> values) {
+        Graphics g = buf.createGraphics();
+        g.setColor(penColor);
         int[] xArray = new int[values.size()/2];
         int[] yArray = new int[values.size()/2];
         for (int i = 0, len = values.size(); i < len; i++) {
@@ -95,6 +107,7 @@ public class Tool extends JFrame implements ActionListener {
             }
         }
         g.drawPolygon(xArray, yArray, values.size());
+        pnlMain.repaint();
     }
 
     private JButton createButton(String str){
@@ -122,7 +135,9 @@ public class Tool extends JFrame implements ActionListener {
 
     public void setupBufferedImage() {
         buf = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
-        g = buf.createGraphics();
+        Graphics2D g = buf.createGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, buf.getWidth(), buf.getHeight());
     }
 
     public void setupGUI() {
@@ -220,6 +235,7 @@ public class Tool extends JFrame implements ActionListener {
         pnlColour.add(btnWhite);
         frame.repaint();
         pnlMenu.repaint();
+        pnlMain.add(new CustomPaintComponent());
         pnlMain.repaint();
     }
 
@@ -231,21 +247,16 @@ public class Tool extends JFrame implements ActionListener {
         jp.add(c, constraints);
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == btnLoad) {
-            //To do
+            Main.openVec();
         } else if (src == btnSave) {
-            //To do
+            Main.saveVec();
         } else if (src == btnLine) {
-            //To do
+            drawLine(0.2f, 0.2f, 0.8f, 0.8f);
         }
     }
 
-    public static void main(String[] args) {
-        Tool tool = new Tool("Test");
-        tool.setupGUI();
-    }
 }
