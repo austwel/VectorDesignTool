@@ -54,7 +54,7 @@ public class GUI extends JFrame implements ActionListener {
     }
 
     public void changePen(String color) {
-        penColor = Color.decode("#" + color.substring(0, 6));
+        penColor = Color.decode(color.substring(0, 7));
     }
 
     public void startFill(String color) {
