@@ -29,6 +29,7 @@ public class Tool extends JFrame implements ActionListener {
     private JPanel pnlMain;
     private JPanel pnlMenu;
     private JPanel pnlColour;
+    private JPanel[][] pnlTest;
 
     private JButton btnLoad;
     private JButton btnSave;
@@ -104,16 +105,73 @@ public class Tool extends JFrame implements ActionListener {
         return button;
     }
 
+    private JButton getButton(int x, int y){
+        if (x == 0 && y == 0){
+            return btnRed;
+        } else if (x == 1 && y == 0){
+            return btnYellow;
+        } else if (x == 2 && y == 0){
+            return btnGreen;
+        } else if (x == 3 && y == 0){
+            return btnCyan;
+        } else if (x == 4 && y == 0){
+            return btnBlue;
+        } else if (x == 5 && y == 0){
+            return btnMagenta;
+        } else if (x == 6 && y == 0){
+            return btnBlack;
+        } else if (x == 7 && y == 0) {
+            return btnLightGrey;
+        } else if (x == 0 && y == 1){
+            return btnOrange;
+        } else if (x == 1 && y == 1){
+            return btnLime;
+        } else if (x == 2 && y == 1){
+            return btnAqua;
+        } else if (x == 3 && y == 1){
+            return btnTurquoise;
+        } else if (x == 4 && y == 1){
+            return btnPurple;
+        } else if (x == 5 && y == 1){
+            return btnPink;
+        } else if (x == 6 && y == 1){
+            return btnGrey;
+        } else if (x == 7 && y == 1){
+            return btnWhite;
+        } else{
+            return null;
+        }
+
+    }
+
     public void setupPanels() {
         pnlMain = new JPanel(frame.getLayout());
         pnlMain.setBackground(Color.WHITE);
+        int i = 8;
+        int j = 2;
+        pnlTest = new JPanel[i][j];
+        setLayout(new GridLayout(i, j));
+        for(int x = 0; x < i; x++){
+            for(int y = 0; y < j; y++){
+                pnlTest[x][y] = new JPanel();
+                pnlTest[x][y].setBackground(Color.YELLOW);
+                pnlTest[x][y].setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                pnlTest[x][y].isVisible();
+                frame.add(pnlTest[x][y], BorderLayout.PAGE_END);
+                JButton button = getButton(x, y);
+                //pnlTest[x][y].add(button);              This line is cooked
+                frame.repaint();
+            }
+        }
         pnlColour = new JPanel(new GridLayout(2, 8, 5, 5));
         pnlColour.setBackground(new Color(255, 255, 200));
         pnlColour.setBounds(0, HEIGHT - 100, WIDTH, 100);
+        pnlColour.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2));
         pnlMenu = new JPanel(new GridLayout(10, 1, 3, 3));
-        pnlMenu.setBackground(Color.RED);
+        pnlMenu.setBackground(new Color(130, 200, 255));
         pnlMenu.setBounds(0, 150, 100, 150);
-        frame.add(pnlColour, BorderLayout.PAGE_END);
+        pnlMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        //frame.add(pnlColour, BorderLayout.PAGE_END);
         frame.add(pnlMain, BorderLayout.CENTER);
         frame.add(pnlMenu, BorderLayout.WEST);
         frame.repaint();
@@ -202,9 +260,12 @@ public class Tool extends JFrame implements ActionListener {
         pnlMenu.add(btnLoad);
         pnlMenu.add(btnSave);
         pnlMenu.add(btnLine);
-        pnlColour.add(btnRed);
-        pnlColour.add(btnYellow);
-        pnlColour.add(btnGreen);
+        pnlTest[0][0].add(btnRed);
+        pnlTest[1][0].add(btnYellow);
+        pnlTest[2][0].add(btnGreen);
+        //pnlColour.add(btnRed);
+        //pnlColour.add(btnYellow);
+        //pnlColour.add(btnGreen);
         pnlColour.add(btnCyan);
         pnlColour.add(btnBlue);
         pnlColour.add(btnMagenta);
