@@ -1,252 +1,281 @@
 package DesignTool;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, ChangeListener {
 
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
-    public static float scale = 400;
-    public JFrame frame;
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 400;
+    public static float _scale = 400;
 
-    private static BufferedImage buf;
-    private static Color penColor = new Color(0, 0, 0);
+    private static BufferedImage _buf;
+    private static Color _penColor = new Color(0, 0, 0);
 
+    private JPanel canvas;
+    private JLayeredPane layeredPane;
+    private JMenuBar menuBar;
+    private JMenu menuFile, menuEdit, menuView;
+    private JMenuItem menuNew, menuOpen, menuSave, menuExit;
+    private JPanel colorPanel;
+    private JColorChooser colorChooser;
 
-    private JPanel pnlMain;
-    private JPanel pnlMenu;
-    private JPanel pnlColour;
+    private JPanel pnlTools;
+    private JButton btnFill, btnLine, btnRect, btnPlot, btnEllipse, btnPoly;
 
-    private JButton btnLoad;
-    private JButton btnSave;
-    private JButton btnLine;
-    private JButton btnRed;
-    private JButton btnOrange;
-    private JButton btnYellow;
-    private JButton btnLime;
-    private JButton btnGreen;
-    private JButton btnAqua;
-    private JButton btnCyan;
-    private JButton btnTurquoise;
-    private JButton btnBlue;
-    private JButton btnPurple;
-    private JButton btnMagenta;
-    private JButton btnPink;
-    private JButton btnBlack;
-    private JButton btnGrey;
-    private JButton btnLightGrey;
-    private JButton btnWhite;
-
-    public GUI(String title) {
-        frame = new JFrame(title);
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
+    public GUI() {
+        super("Vector Design Tool");
+        setSize(1000, 1000);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        setupGUI();
     }
 
     public static BufferedImage getImage() {
-        return buf;
+        return _buf;
     }
 
-    public void changePen(String color) {
-        penColor = Color.decode(color.substring(0, 7));
+    public void changePen(Color color) {
+        _penColor = color;
     }
 
-    public void startFill(String color) {
+    public void endFill() {
+        //
+    }
+
+    public void startFill(Color color) {
         //
     }
 
     public void drawLine(Float x1, Float y1, Float x2, Float y2) {
-        Graphics g = buf.createGraphics();
-        g.setColor(penColor);
-        g.drawLine(Math.round(x1 * scale), Math.round(y1 * scale), Math.round(x2 * scale), Math.round(y2 * scale));
-        pnlMain.repaint();
+        Graphics g = _buf.createGraphics();
+        g.setColor(_penColor);
+        g.drawLine(Math.round(x1 * _scale), Math.round(y1 * _scale), Math.round(x2 * _scale), Math.round(y2 * _scale));
+        canvas.repaint();
     }
 
     public void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
-        Graphics g = buf.createGraphics();
-        g.setColor(penColor);
-        g.drawRect(Math.round(x1 * scale), Math.round(y1 * scale), Math.round((x2-x1) * scale), Math.round((y2-y1) * scale));
-        pnlMain.repaint();
+        Graphics g = _buf.createGraphics();
+        g.setColor(_penColor);
+        g.drawRect(Math.round(x1 * _scale), Math.round(y1 * _scale), Math.round((x2 - x1) * _scale), Math.round((y2 - y1) * _scale));
+        canvas.repaint();
     }
 
     public void drawPlot(Float x, Float y) {
-        Graphics g = buf.createGraphics();
-        g.setColor(penColor);
-        g.drawLine(Math.round(x * scale), Math.round(y * scale), Math.round(x * scale), Math.round(y * scale));
-        pnlMain.repaint();
+        Graphics g = _buf.createGraphics();
+        g.setColor(_penColor);
+        g.drawLine(Math.round(x * _scale), Math.round(y * _scale), Math.round(x * _scale), Math.round(y * _scale));
+        canvas.repaint();
     }
 
     public void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
-        Graphics g = buf.createGraphics();
-        g.setColor(penColor);
-        g.drawOval(Math.round(x1 * scale), Math.round(y1 * scale), Math.round((x2-x1) * scale), Math.round((y2-y1) * scale));
-        pnlMain.repaint();
+        Graphics g = _buf.createGraphics();
+        g.setColor(_penColor);
+        g.drawOval(Math.round(x1 * _scale), Math.round(y1 * _scale), Math.round((x2 - x1) * _scale), Math.round((y2 - y1) * _scale));
+        canvas.repaint();
     }
 
     public void drawPolygon(ArrayList<Float> values) {
-        Graphics2D g = buf.createGraphics();
-        g.setColor(penColor);
-        int xArray[] = new int[values.size()/2];
-        int yArray[] = new int[values.size()/2];
+        Graphics2D g = _buf.createGraphics();
+        g.setColor(_penColor);
+        int[] xArray = new int[values.size() / 2];
+        int[] yArray = new int[values.size() / 2];
         for (int i = 0, len = values.size(); i < len; i++) {
-            switch (i%2) {
+            switch (i % 2) {
                 case 0:
-                    xArray[i/2] = Math.round(values.get(i) * scale);
+                    xArray[i / 2] = Math.round(values.get(i) * _scale);
                     break;
                 case 1:
-                    yArray[(i-1)/2] = Math.round(values.get(i) * scale);
+                    yArray[(i - 1) / 2] = Math.round(values.get(i) * _scale);
                     break;
             }
         }
-        g.draw(new Polygon(xArray,yArray,values.size()/2));
-        pnlMain.repaint();
+        g.draw(new Polygon(xArray, yArray, values.size() / 2));
+        canvas.repaint();
     }
 
-    private JButton createButton(String str){
-        JButton button = new JButton();
-        button.setText(str);
-        button.addActionListener(this);
-        return button;
+    public void handleDrag(final JPanel panel){
+        final int[] x = new int[1];
+        final int[] y = new int[1];
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent me) {
+                x[0] = me.getX();
+                y[0] = me.getY();
+            }
+        });
+        panel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent me) {
+                me.translatePoint(me.getComponent().getLocation().x- x[0], me.getComponent().getLocation().y- y[0]);
+                panel.setLocation(me.getX(), me.getY());
+            }
+        });
+    }
+
+    public void setupTools() {
+        pnlTools = new JPanel(new GridBagLayout());
+        pnlTools.setBorder(BorderFactory.createTitledBorder("Tools"));
+        GridBagConstraints constraints = new GridBagConstraints();
+        Dimension dimension = new Dimension(110, 50);
+        pnlTools.setLocation(500, 200);
+        pnlTools.setSize(240, 180);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        btnFill = new JButton();
+        btnFill.setText("Fill");
+        btnFill.setPreferredSize(dimension);
+        pnlTools.add(btnFill, constraints);
+        constraints.gridx++;
+        btnLine = new JButton();
+        btnLine.setText("Line");
+        btnLine.setPreferredSize(dimension);
+        pnlTools.add(btnLine, constraints);
+        constraints.gridx = 0;
+        constraints.gridy++;
+        btnRect = new JButton();
+        btnRect.setText("Rectangle");
+        btnRect.setPreferredSize(dimension);
+        pnlTools.add(btnRect, constraints);
+        constraints.gridx++;
+        btnPlot = new JButton();
+        btnPlot.setText("Plot");
+        btnPlot.setPreferredSize(dimension);
+        pnlTools.add(btnPlot, constraints);
+        constraints.gridx = 0;
+        constraints.gridy++;
+        btnEllipse = new JButton();
+        btnEllipse.setText("Ellipse");
+        btnEllipse.setPreferredSize(dimension);
+        pnlTools.add(btnEllipse, constraints);
+        constraints.gridx++;
+        btnPoly = new JButton();
+        btnPoly.setText("Polygon");
+        btnPoly.setPreferredSize(dimension);
+        pnlTools.add(btnPoly, constraints);
+        handleDrag(pnlTools);
     }
 
     public void setupPanels() {
-        pnlMain = new JPanel(frame.getLayout());
-        pnlMain.setBackground(Color.WHITE);
-        pnlColour = new JPanel(new GridLayout(2, 8, 5, 5));
-        pnlColour.setBackground(new Color(255, 255, 200));
-        pnlColour.setBounds(0, HEIGHT - 100, WIDTH, 100);
-        pnlMenu = new JPanel(new GridLayout(10, 1, 3, 3));
-        pnlMenu.setBackground(Color.RED);
-        pnlMenu.setBounds(0, 150, 100, 150);
-        frame.add(pnlColour, BorderLayout.PAGE_END);
-        frame.add(pnlMain, BorderLayout.CENTER);
-        frame.add(pnlMenu, BorderLayout.WEST);
-        frame.repaint();
-        frame.setVisible(true);
+        layeredPane = getLayeredPane();
+        canvas = new JPanel(new GridBagLayout());
+        canvas.setBackground(Color.WHITE);
+        canvas.setSize(400, 400);
+        layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
+        layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
+        layeredPane.setLayer(colorPanel, JLayeredPane.DRAG_LAYER);
+        layeredPane.add(pnlTools);
+        layeredPane.add(canvas);
+        layeredPane.add(colorPanel);
     }
 
     public void setupBufferedImage() {
-        buf = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = buf.createGraphics();
+        _buf = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = _buf.createGraphics();
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, buf.getWidth(), buf.getHeight());
+        g.fillRect(0, 0, _buf.getWidth(), _buf.getHeight());
+    }
+
+    public void setupColorChooser() {
+        colorChooser = new JColorChooser();
+        colorChooser.setPreviewPanel(new JPanel());
+        colorChooser.getSelectionModel().addChangeListener(this);
+        colorChooser.setBounds(0, 0, 400, 200);
+        colorPanel = new JPanel(new BorderLayout());
+        colorPanel.setBorder(BorderFactory.createTitledBorder("Color"));
+        colorPanel.setSize(614, 250);
+        colorPanel.setLocation(10, 50);
+        colorPanel.add(colorChooser, BorderLayout.SOUTH);
+        handleDrag(colorPanel);
+    }
+
+    public void setupMenu() {
+        menuBar = new JMenuBar();
+        menuFile = new JMenu("File");
+        menuFile.getAccessibleContext().setAccessibleDescription("File Menu");
+        menuEdit = new JMenu("Edit");
+        menuEdit.getAccessibleContext().setAccessibleDescription("Edit Menu");
+        menuView = new JMenu("View");
+        menuView.getAccessibleContext().setAccessibleDescription("View Menu");
+        menuNew = new JMenuItem("New", KeyEvent.VK_N);
+        menuNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuNew.getAccessibleContext().setAccessibleDescription("");
+        menuNew.addActionListener(this);
+        menuFile.add(menuNew);
+        menuFile.addSeparator();
+        menuOpen = new JMenuItem("Open", KeyEvent.VK_O);
+        menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
+        menuOpen.getAccessibleContext().setAccessibleDescription("");
+        menuOpen.addActionListener(this);
+        menuFile.add(menuOpen);
+        menuFile.addSeparator();
+        menuSave = new JMenuItem("Save", KeyEvent.VK_S);
+        menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
+        menuSave.getAccessibleContext().setAccessibleDescription("");
+        menuSave.addActionListener(this);
+        menuFile.add(menuSave);
+        menuFile.addSeparator();
+        menuExit = new JMenuItem("Exit", KeyEvent.VK_X);
+        menuExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.ALT_MASK));
+        menuExit.getAccessibleContext().setAccessibleDescription("");
+        menuExit.addActionListener(this);
+        menuFile.add(menuExit);
+
+        menuBar.add(menuFile);
+        menuBar.add(menuEdit);
+        menuBar.add(menuView);
+        setJMenuBar(menuBar);
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        _penColor = colorChooser.getColor();
     }
 
     public void setupGUI() {
-        setupPanels();
         setupBufferedImage();
-        btnLoad = createButton("Load");
-        btnLoad.setBounds(5, 1, 20, 1);
-        btnSave = createButton("Save");
-        btnSave.setBounds(5, 2, 20, 1);
-        btnLine = createButton("Line");
-        btnLine.setBounds(5, 3, 20 ,1);
-
-        btnRed = createButton("");
-        btnRed.setBackground(new Color(255, 0 ,0));
-        btnRed.setBounds(0, 0, 5, 5);
-
-        btnYellow = createButton("");
-        btnYellow.setBackground(new Color(255, 255, 0));
-        btnYellow.setBounds(1, 0, 5, 5);
-
-        btnGreen = createButton("");
-        btnGreen.setBackground(new Color(0, 255, 0));
-        btnGreen.setBounds(2, 0, 5, 5);
-
-        btnCyan = createButton("");
-        btnCyan.setBackground(new Color(0, 255, 255));
-        btnCyan.setBounds(3, 0, 5, 5);
-
-        btnBlue = createButton("");
-        btnBlue.setBackground(new Color(0, 0, 255));
-        btnBlue.setBounds(4, 0, 5, 5);
-
-        btnMagenta = createButton("");
-        btnMagenta.setBackground(new Color(255, 0, 255));
-        btnMagenta.setBounds(5, 0, 5, 5);
-
-        btnBlack = createButton("");
-        btnBlack.setBackground(new Color(0, 0, 0));
-        btnBlack.setBounds(6, 0, 5, 5);
-
-        btnLightGrey = createButton("");
-        btnLightGrey.setBackground(new Color(191, 191, 191));
-        btnLightGrey.setBounds(7, 1, 5, 5);
-
-        btnOrange = createButton("");
-        btnOrange.setBackground(new Color(255, 127, 0));
-        btnOrange.setBounds(0, 1, 5, 5);
-
-        btnLime = createButton("");
-        btnLime.setBackground(new Color(127, 255, 0));
-        btnLime.setBounds(1, 1, 5, 5);
-
-        btnAqua = createButton("");
-        btnAqua.setBackground(new Color(0, 255, 127));
-        btnAqua.setBounds(2, 1, 5, 5);
-
-        btnTurquoise = createButton("");
-        btnTurquoise.setBackground(new Color(0, 127, 255));
-        btnTurquoise.setBounds(3, 1, 5, 5);
-
-        btnPurple = createButton("");
-        btnPurple.setBackground(new Color(127, 0, 255));
-        btnPurple.setBounds(4, 1, 5, 5);
-
-        btnPink = createButton("");
-        btnPink.setBackground(new Color(255, 0, 127));
-        btnPink.setBounds(5, 1, 5, 5);
-
-        btnGrey = createButton("");
-        btnGrey.setBackground(new Color(127, 127, 127));
-        btnGrey.setBounds(6, 1, 5, 5);
-
-        btnWhite = createButton("");
-        btnWhite.setBackground(new Color(255, 255 ,255));
-        btnWhite.setBounds(7, 1, 5, 5);
-
-        pnlMenu.add(btnLoad);
-        pnlMenu.add(btnSave);
-        pnlMenu.add(btnLine);
-        pnlColour.add(btnRed);
-        pnlColour.add(btnYellow);
-        pnlColour.add(btnGreen);
-        pnlColour.add(btnCyan);
-        pnlColour.add(btnBlue);
-        pnlColour.add(btnMagenta);
-        pnlColour.add(btnBlack);
-        pnlColour.add(btnLightGrey);
-        pnlColour.add(btnOrange);
-        pnlColour.add(btnLime);
-        pnlColour.add(btnAqua);
-        pnlColour.add(btnTurquoise);
-        pnlColour.add(btnPurple);
-        pnlColour.add(btnPink);
-        pnlColour.add(btnGrey);
-        pnlColour.add(btnWhite);
-        frame.repaint();
-        pnlMenu.repaint();
-        pnlMain.add(new CustomPaintComponent());
-        pnlMain.repaint();
+        setupColorChooser();
+        setupMenu();
+        setupTools();
+        setupPanels();
+        canvas.add(new CustomPaintComponent());
+        canvas.setVisible(true);
+        canvas.repaint();
+        setVisible(true);
+        repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        if (src == btnLoad) {
-            Main.openVec();
-        } else if (src == btnSave) {
+        if (src == menuOpen) {
+            JFileChooser fileChooser = new JFileChooser();
+            int r = fileChooser.showOpenDialog(GUI.this);
+            if (r == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                changePen(Color.BLACK);
+                //isFill = false;
+                Main.openVec(filePath);
+            }
+        } else if (src == menuSave) {
             Main.saveVec();
+        } else if (src == btnFill) {
+
         } else if (src == btnLine) {
             drawLine(0.2f, 0.2f, 0.8f, 0.8f);
+        } else if (src == btnRect) {
+
+        } else if (src == btnPlot) {
+
+        } else if (src == btnEllipse) {
+
+        } else if (src == btnPoly) {
+
         }
     }
-
 }
