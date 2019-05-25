@@ -124,7 +124,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         pnlTools.setBorder(BorderFactory.createTitledBorder("Tools"));
         GridBagConstraints constraints = new GridBagConstraints();
         Dimension dimension = new Dimension(110, 50);
-        pnlTools.setLocation(500, 200);
+        pnlTools.setLocation(700, 60);
         pnlTools.setSize(240, 180);
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -172,7 +172,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         layeredPane = getLayeredPane();
         canvas = new JPanel(this.getLayout());
         canvas.setBackground(Color.WHITE);
-        canvas.setBounds(200, 200, 401, 401);
+        canvas.setBounds(250, 250, 401, 401);
         layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
         layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
         layeredPane.setLayer(colorPanel, JLayeredPane.DRAG_LAYER);
@@ -198,7 +198,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         colorPanel = new JPanel(new BorderLayout());
         colorPanel.setBorder(BorderFactory.createTitledBorder("Color"));
         colorPanel.setSize(614, 250);
-        colorPanel.setLocation(10, 50);
+        colorPanel.setLocation(270, 670);
         colorPanel.add(colorChooser, BorderLayout.SOUTH);
         handleDrag(colorPanel);
     }
