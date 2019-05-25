@@ -172,7 +172,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         layeredPane = getLayeredPane();
         canvas = new JPanel(this.getLayout());
         canvas.setBackground(Color.WHITE);
-        canvas.setBounds(200, 200, 400, 400);
+        canvas.setBounds(200, 200, 401, 401);
         layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
         layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
         layeredPane.setLayer(colorPanel, JLayeredPane.DRAG_LAYER);
@@ -184,7 +184,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
     }
 
     public void setupBufferedImage() {
-        _buf = new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
+        _buf = new BufferedImage(401, 401, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = _buf.createGraphics();
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, _buf.getWidth(), _buf.getHeight());
