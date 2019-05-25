@@ -49,28 +49,8 @@ public class vecFile {
         }
     }
 
-    public void outputPen(String color) throws IOException {
-        outputFile.printf("PEN %s\n", color);
-    }
-
-    public void outputFill(String color) throws IOException {
-        outputFile.printf("FILL %s\n", color);
-    }
-
-    public void outputLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("LINE %.6f %.6f %.6f %.6f\n", x1, y1, x2, y2);
-    }
-
-    public void outputRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("RECTANGLE %.6f %.6f %.6f %.6f\n", x1, y1, x2, y2);
-    }
-
-    public void outputPlot(Float x, Float y) throws IOException {
-        outputFile.printf("PLOT %.6f %.6f\n", x, y);
-    }
-
-    public void outputEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        outputFile.printf("ELLIPSE %.6f %.6f %.6f %.6f\n", x1, y1, x2, y2);
+    public void output(String string) throws IOException {
+        outputFile.printf("%s\n", string);
     }
 
     public void outputPolygon(ArrayList<Float> values) throws IOException {
@@ -84,7 +64,7 @@ public class vecFile {
     public void executeCommand(ArrayList<String> command) throws IOException {
         switch (command.get(0)) {
             case "LINE":
-                 Main.drawLine(
+                Main.drawLine(
                         Float.valueOf(command.get(1)),
                         Float.valueOf(command.get(2)),
                         Float.valueOf(command.get(3)),
@@ -121,7 +101,11 @@ public class vecFile {
                 Main.drawPolygon(values);
                 break;
             case "FILL":
-                Main.startFill(command.get(1));
+                if (command.get(1).length() < 5) {
+                    Main.endFill();
+                } else {
+                    Main.startFill(command.get(1));
+                }
                 break;
             case "PEN":
                 Main.changePen(command.get(1));

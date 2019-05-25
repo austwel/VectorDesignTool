@@ -22,6 +22,7 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
     private JMenuBar menuBar;
     private JMenu menuFile, menuEdit, menuView;
     private JMenuItem menuNew, menuOpen, menuSave, menuExit;
+
     private JPanel colorPanel;
     private JColorChooser colorChooser;
 
@@ -130,48 +131,56 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
         btnFill = new JButton();
         btnFill.setText("Fill");
         btnFill.setPreferredSize(dimension);
+        btnFill.addActionListener(this);
         pnlTools.add(btnFill, constraints);
         constraints.gridx++;
         btnLine = new JButton();
         btnLine.setText("Line");
         btnLine.setPreferredSize(dimension);
+        btnLine.addActionListener(this);
         pnlTools.add(btnLine, constraints);
         constraints.gridx = 0;
         constraints.gridy++;
         btnRect = new JButton();
         btnRect.setText("Rectangle");
         btnRect.setPreferredSize(dimension);
+        btnRect.addActionListener(this);
         pnlTools.add(btnRect, constraints);
         constraints.gridx++;
         btnPlot = new JButton();
         btnPlot.setText("Plot");
         btnPlot.setPreferredSize(dimension);
+        btnPlot.addActionListener(this);
         pnlTools.add(btnPlot, constraints);
         constraints.gridx = 0;
         constraints.gridy++;
         btnEllipse = new JButton();
         btnEllipse.setText("Ellipse");
         btnEllipse.setPreferredSize(dimension);
+        btnEllipse.addActionListener(this);
         pnlTools.add(btnEllipse, constraints);
         constraints.gridx++;
         btnPoly = new JButton();
         btnPoly.setText("Polygon");
         btnPoly.setPreferredSize(dimension);
+        btnPoly.addActionListener(this);
         pnlTools.add(btnPoly, constraints);
         handleDrag(pnlTools);
     }
 
     public void setupPanels() {
         layeredPane = getLayeredPane();
-        canvas = new JPanel(new GridBagLayout());
+        canvas = new JPanel(this.getLayout());
         canvas.setBackground(Color.WHITE);
-        canvas.setSize(400, 400);
+        canvas.setBounds(200, 200, 400, 400);
         layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
         layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
         layeredPane.setLayer(colorPanel, JLayeredPane.DRAG_LAYER);
         layeredPane.add(pnlTools);
         layeredPane.add(canvas);
         layeredPane.add(colorPanel);
+        repaint();
+        setVisible(true);
     }
 
     public void setupBufferedImage() {
@@ -238,15 +247,13 @@ public class GUI extends JFrame implements ActionListener, ChangeListener {
     }
 
     public void setupGUI() {
-        setupBufferedImage();
         setupColorChooser();
         setupMenu();
         setupTools();
         setupPanels();
+        setupBufferedImage();
         canvas.add(new CustomPaintComponent());
-        canvas.setVisible(true);
         canvas.repaint();
-        setVisible(true);
         repaint();
     }
 
