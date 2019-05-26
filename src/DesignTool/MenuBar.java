@@ -22,56 +22,65 @@ public class MenuBar extends JMenuBar implements ActionListener {
         _tools = tools;
         _color = color;
         _history = history;
-        menuFile = new JMenu("File");
-        menuFile.setMnemonic(KeyEvent.VK_F);
-        menuFile.getAccessibleContext().setAccessibleDescription("File Menu");
-        menuEdit = new JMenu("Edit");
-        menuEdit.setMnemonic(KeyEvent.VK_E);
-        menuEdit.getAccessibleContext().setAccessibleDescription("Edit Menu");
-        menuView = new JMenu("View");
-        menuView.setMnemonic(KeyEvent.VK_V);
-        menuView.getAccessibleContext().setAccessibleDescription("View Menu");
-        menuNew = new JMenuItem("New", KeyEvent.VK_N);
-        menuNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        menuNew.addActionListener(this);
+
+        createFile();
+        createEdit();
+        createView();
+    }
+
+    public void createFile() {
+        menuFile = createMenu("File", KeyEvent.VK_F);
+        menuNew = createMenuItem("New", KeyEvent.VK_N, KeyEvent.VK_1);
         menuFile.add(menuNew);
         menuFile.addSeparator();
-        menuOpen = new JMenuItem("Open", KeyEvent.VK_O);
-        menuOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-        menuOpen.addActionListener(this);
+        menuOpen = createMenuItem("Open", KeyEvent.VK_O, KeyEvent.VK_2);
         menuFile.add(menuOpen);
         menuFile.addSeparator();
-        menuSave = new JMenuItem("Save", KeyEvent.VK_S);
-        menuSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
-        menuSave.addActionListener(this);
+        menuSave = createMenuItem("Save", KeyEvent.VK_S, KeyEvent.VK_3);
         menuFile.add(menuSave);
         menuFile.addSeparator();
-        menuExit = new JMenuItem("Exit", KeyEvent.VK_X);
-        menuExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, ActionEvent.ALT_MASK));
-        menuExit.addActionListener(this);
+        menuExit = createMenuItem("Exit", KeyEvent.VK_X, KeyEvent.VK_4);
         menuFile.add(menuExit);
+        add(menuFile);
+    }
 
-        menuTools = new JCheckBoxMenuItem("Tools", true);
-        menuTools.setMnemonic(KeyEvent.VK_T);
-        menuTools.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
-        menuTools.addActionListener(this);
+    public void createEdit() {
+        menuEdit = createMenu("Edit", KeyEvent.VK_E);
+        add(menuEdit);
+    }
+
+    public void createView() {
+        menuView = createMenu("View", KeyEvent.VK_V);
+        menuTools = createCheckBoxMenuItem("Tools", KeyEvent.VK_1, KeyEvent.VK_T, true);
         menuView.add(menuTools);
         menuView.addSeparator();
-        menuColor = new JCheckBoxMenuItem("Color", true);
-        menuColor.setMnemonic(KeyEvent.VK_C);
-        menuColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, ActionEvent.ALT_MASK));
-        menuColor.addActionListener(this);
+        menuTools = createCheckBoxMenuItem("Color", KeyEvent.VK_2, KeyEvent.VK_C, true);
         menuView.add(menuColor);
         menuView.addSeparator();
-        menuHistory = new JCheckBoxMenuItem("History", false);
-        menuHistory.setMnemonic(KeyEvent.VK_H);
-        menuHistory.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, ActionEvent.ALT_MASK));
-        menuHistory.addActionListener(this);
+        menuTools = createCheckBoxMenuItem("History", KeyEvent.VK_3, KeyEvent.VK_H, false);
         menuView.add(menuHistory);
-
-        add(menuFile);
-        add(menuEdit);
         add(menuView);
+    }
+
+    public JMenuItem createMenuItem(String text, int keyEventText, int keyEventNum) {
+        JMenuItem item = new JMenuItem(text, keyEventText);
+        item.setAccelerator(KeyStroke.getKeyStroke(keyEventNum, ActionEvent.ALT_MASK));
+        item.addActionListener(this);
+        return item;
+    }
+
+    public JCheckBoxMenuItem createCheckBoxMenuItem(String text, int keyEventText, int keyEventNum, boolean active) {
+        JCheckBoxMenuItem item = new JCheckBoxMenuItem(text, active);
+        item.setMnemonic(keyEventText);
+        item.setAccelerator(KeyStroke.getKeyStroke(keyEventNum, ActionEvent.ALT_MASK));
+        item.addActionListener(this);
+        return item;
+    }
+
+    public JMenu createMenu(String text, int keyEvent) {
+        JMenu menu = new JMenu(text);
+        menu.setMnemonic(keyEvent);
+        return menu;
     }
 
     @Override
