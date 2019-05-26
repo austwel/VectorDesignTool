@@ -1,4 +1,7 @@
-package DesignTool;
+package DesignTool.Panels;
+
+import DesignTool.Misc.DragHandler;
+import DesignTool.Main;
 
 import javax.swing.*;
 import java.awt.*;

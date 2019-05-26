@@ -1,9 +1,16 @@
-package DesignTool;
+package DesignTool.Panels;
+
+import DesignTool.Misc.CustomPaintComponent;
+import DesignTool.Misc.DrawTool;
+import DesignTool.Misc.KeybindHandler;
+import DesignTool.Panels.ColorChooser;
+import DesignTool.Panels.Img;
+import DesignTool.Panels.MenuBar;
+import DesignTool.Panels.Tools;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class GUI extends JFrame {
 
@@ -28,6 +35,7 @@ public class GUI extends JFrame {
         setLayout(new BorderLayout());
         setupGUI();
         draw = new DrawTool(canvas, buf, _penColor, _scale);
+        new KeybindHandler(canvas);
     }
 
     public void setupLayers() {

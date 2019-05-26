@@ -1,4 +1,6 @@
-package DesignTool;
+package DesignTool.Panels;
+
+import DesignTool.Misc.DragHandler;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

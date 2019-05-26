@@ -1,4 +1,6 @@
-package DesignTool;
+package DesignTool.Panels;
+
+import DesignTool.Main;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -46,6 +48,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     public void createEdit() {
         menuEdit = createMenu("Edit", KeyEvent.VK_E);
+        menuUndo = createMenuItem("Undo", KeyEvent.VK_U, KeyEvent.VK_1);
+        menuEdit.add(menuUndo);
+        menuEdit.addSeparator();
+        menuRedo = createMenuItem("Redo", KeyEvent.VK_R, KeyEvent.VK_2);
+        menuEdit.add(menuRedo);
         add(menuEdit);
     }
 
@@ -87,18 +94,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == menuOpen) {
-            JFileChooser fileChooser = new JFileChooser();
-            int r = fileChooser.showOpenDialog(MenuBar.this);
-            if (r == JFileChooser.APPROVE_OPTION) {
-                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                try {
-                    Main.changePen("#000000");
-                } catch (IOException ex) {
-
-                }
-                //Main.isFill = false;
-                Main.openVec(filePath);
-            }
+            Main.openVec();
         } else if (src == menuSave) {
             Main.saveVec();
         } else if (src == menuTools) {

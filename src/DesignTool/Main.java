@@ -1,5 +1,9 @@
 package DesignTool;
 
+import DesignTool.Misc.Io;
+import DesignTool.Panels.GUI;
+
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,6 +18,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
         tool = new GUI();
         v = new Io();
+    }
+
+    public static void undo() {
+        System.out.println("Undo");
+    }
+
+    public static void redo() {
+        System.out.println("Redo");
+    }
+
+    public static void newFile() {
+        System.out.println("New");
     }
 
     public static void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
@@ -56,11 +72,17 @@ public class Main {
         v.output(String.format("PEN %s", color));
     }
 
-    public static void openVec(String filePath) {
-        try {
-            v.openFile(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static void openVec() {
+        JFileChooser fileChooser = new JFileChooser();
+        int r = fileChooser.showOpenDialog(tool);
+        if (r == JFileChooser.APPROVE_OPTION) {
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            try {
+                Main.changePen("#000000");
+                v.openFile(filePath);
+            } catch (IOException ex) {
+
+            }
         }
     }
 

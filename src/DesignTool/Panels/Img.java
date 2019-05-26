@@ -1,4 +1,4 @@
-package DesignTool;
+package DesignTool.Panels;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

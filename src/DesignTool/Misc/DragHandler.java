@@ -1,4 +1,4 @@
-package DesignTool;
+package DesignTool.Misc;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

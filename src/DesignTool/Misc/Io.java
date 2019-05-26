@@ -1,4 +1,6 @@
-package DesignTool;
+package DesignTool.Misc;
+
+import DesignTool.Main;
 
 import java.io.*;
 import java.util.ArrayList;
