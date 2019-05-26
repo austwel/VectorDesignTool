@@ -9,13 +9,16 @@ public class Io {
 
     private static PrintWriter outputFile;
     private static FileReader inputFile;
+    private ArrayList<String> _history;
     private static ArrayList<ArrayList<String>> commands = new ArrayList<>();
 
-    public Io() throws IOException {
+    public Io(ArrayList<String> history) throws IOException {
+        _history = history;
         setupOutput();
     }
 
-    public void saveFile() throws IOException {
+    public void saveFile(ArrayList<String> out) {
+        output(out);
         outputFile.close();
     }
 
@@ -34,6 +37,7 @@ public class Io {
             }
             String[] commandList = s.split("\n");
             for(String str : commandList) {
+                _history.add(str);
                 String[] strs = str.split(" ");
                 ArrayList<String> command = new ArrayList<>();
                 for(String value : strs) {
@@ -51,16 +55,10 @@ public class Io {
         }
     }
 
-    public void output(String string) throws IOException {
-        outputFile.printf("%s\n", string);
-    }
-
-    public void outputPolygon(ArrayList<Float> values) throws IOException {
-        String outputString = "POLYGON";
-        for (Float value : values) {
-            outputString += " " + value.toString();
+    public void output(ArrayList<String> out) {
+        for(String command : out) {
+            outputFile.printf("%s\n", command);
         }
-        outputFile.printf(outputString + "\n");
     }
 
     public void executeCommand(ArrayList<String> command) throws IOException {

@@ -11,13 +11,14 @@ import java.util.ArrayList;
 public class Main {
 
     private static GUI tool;
-    private static Io v;
+    private static Io io;
 
-    private static ArrayList<String> output;
+    private static ArrayList<String> history;
 
     public static void main(String[] args) throws IOException {
         tool = new GUI();
-        v = new Io();
+        history = new ArrayList<>();
+        io = new Io(history);
     }
 
     public static void undo() {
@@ -32,44 +33,36 @@ public class Main {
         System.out.println("New");
     }
 
-    public static void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
-        v.output(String.format("LINE %.6f %.6f %.6f %.6f", x1,y1,x2,y2));
+    public static void drawLine(Float x1, Float y1, Float x2, Float y2) {
         tool.draw.drawLine(x1,y1,x2,y2);
     }
 
-    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) throws IOException {
+    public static void drawRectangle(Float x1, Float y1, Float x2, Float y2) {
         tool.draw.drawRectangle(x1,y1,x2,y2);
-        v.output(String.format("RECTANGLE %.6f %.6f %.6f %.6f", x1,y1,x2,y2));
     }
 
-    public static void drawPlot(Float x, Float y) throws IOException {
+    public static void drawPlot(Float x, Float y) {
         tool.draw.drawPlot(x,y);
-        v.output(String.format("PLOT %.6f %.6f", x,y));
     }
 
-    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) throws IOException {
+    public static void drawEllipse(Float x1, Float y1, Float x2, Float y2) {
         tool.draw.drawEllipse(x1,y1,x2,y2);
-        v.output(String.format("ELLIPSE %.6f %.6f %.6f %.6f", x1,y1,x2,y2));
     }
 
-    public static void drawPolygon(ArrayList<Float> values) throws IOException {
+    public static void drawPolygon(ArrayList<Float> values) {
         tool.draw.drawPolygon(values);
-        v.outputPolygon(values);
     }
 
-    public static void endFill() throws IOException {
+    public static void endFill() {
         tool.draw.endFill();
-        v.output("FILL OFF");
     }
 
-    public static void startFill(String color) throws IOException {
+    public static void startFill(String color) {
         tool.draw.startFill(Color.decode(color.substring(0, 7)));
-        v.output(String.format("FILL %s", color));
     }
 
-    public static void changePen(String color) throws IOException {
+    public static void changePen(String color) {
         tool.draw.changePen(Color.decode(color.substring(0, 7)));
-        v.output(String.format("PEN %s", color));
     }
 
     public static void openVec() {
@@ -79,7 +72,7 @@ public class Main {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
             try {
                 Main.changePen("#000000");
-                v.openFile(filePath);
+                io.openFile(filePath);
             } catch (IOException ex) {
 
             }
@@ -87,11 +80,7 @@ public class Main {
     }
 
     public static void saveVec() {
-        try {
-            v.saveFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        io.saveFile(history);
     }
 
 }

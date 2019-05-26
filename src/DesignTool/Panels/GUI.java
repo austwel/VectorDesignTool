@@ -3,10 +3,6 @@ package DesignTool.Panels;
 import DesignTool.Misc.CustomPaintComponent;
 import DesignTool.Misc.DrawTool;
 import DesignTool.Misc.KeybindHandler;
-import DesignTool.Panels.ColorChooser;
-import DesignTool.Panels.Img;
-import DesignTool.Panels.MenuBar;
-import DesignTool.Panels.Tools;
 
 import javax.swing.*;
 import java.awt.*;

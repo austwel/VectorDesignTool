@@ -67,11 +67,7 @@ public class Tools extends JPanel implements ActionListener {
         if (src == btnFill) {
 
         } else if (src == btnLine) {
-            try {
-                Main.drawLine(0.2f, 0.2f, 0.8f, 0.8f);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            Main.drawLine(0.2f, 0.2f, 0.8f, 0.8f);
         } else if (src == btnRect) {
 
         } else if (src == btnPlot) {
