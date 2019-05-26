@@ -3,13 +3,13 @@ package DesignTool;
 import java.io.*;
 import java.util.ArrayList;
 
-public class vecFile {
+public class Io {
 
     private static PrintWriter outputFile;
     private static FileReader inputFile;
     private static ArrayList<ArrayList<String>> commands = new ArrayList<>();
 
-    public vecFile() throws IOException {
+    public Io() throws IOException {
         setupOutput();
     }
 

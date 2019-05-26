@@ -7,11 +7,13 @@ import java.util.ArrayList;
 public class Main {
 
     private static GUI tool;
-    private static vecFile v;
+    private static Io v;
+
+    private static ArrayList<String> output;
 
     public static void main(String[] args) throws IOException {
         tool = new GUI();
-        v = new vecFile();
+        v = new Io();
     }
 
     public static void drawLine(Float x1, Float y1, Float x2, Float y2) throws IOException {
