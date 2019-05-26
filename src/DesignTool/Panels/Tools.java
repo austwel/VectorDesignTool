@@ -7,7 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.KeyEvent;
+import java.security.Key;
 
 public class Tools extends JPanel implements ActionListener {
 
@@ -21,27 +22,24 @@ public class Tools extends JPanel implements ActionListener {
         setLayout(new GridBagLayout());
         setBorder(BorderFactory.createTitledBorder("Tools"));
         setLocation(700, 60);
-        setSize(240, 180);
+        setSize(240, 130);
         newGrid();
-        btnFill = createButton("Fill");
+        btnLine = createButton("Line", KeyEvent.VK_1);
         nextGrid();
-        btnLine = createButton("Line");
+        btnRect = createButton("Rectangle", KeyEvent.VK_2);
         newLine();
-        btnRect = createButton("Rectangle");
+        btnEllipse = createButton("Ellipse", KeyEvent.VK_3);
         nextGrid();
-        btnPlot = createButton("Plot");
-        newLine();
-        btnEllipse = createButton("Ellipse");
-        nextGrid();
-        btnPoly = createButton("Polygon");
+        btnPoly = createButton("Polygon", KeyEvent.VK_4);
 
         new DragHandler(this);
     }
 
-    private JButton createButton(String text) {
+    private JButton createButton(String text, int keyEvent) {
         JButton src = new JButton();
         src.setText(text);
         src.setPreferredSize(_dimension);
+        src.setMnemonic(keyEvent);
         src.addActionListener(this);
         add(src, _constraints);
         return src;
