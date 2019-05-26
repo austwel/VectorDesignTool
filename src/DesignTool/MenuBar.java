@@ -54,10 +54,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menuTools = createCheckBoxMenuItem("Tools", KeyEvent.VK_1, KeyEvent.VK_T, true);
         menuView.add(menuTools);
         menuView.addSeparator();
-        menuTools = createCheckBoxMenuItem("Color", KeyEvent.VK_2, KeyEvent.VK_C, true);
+        menuColor = createCheckBoxMenuItem("Color", KeyEvent.VK_2, KeyEvent.VK_C, true);
         menuView.add(menuColor);
         menuView.addSeparator();
-        menuTools = createCheckBoxMenuItem("History", KeyEvent.VK_3, KeyEvent.VK_H, false);
+        menuHistory = createCheckBoxMenuItem("History", KeyEvent.VK_3, KeyEvent.VK_H, false);
         menuView.add(menuHistory);
         add(menuView);
     }
