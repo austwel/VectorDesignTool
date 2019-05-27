@@ -304,9 +304,4 @@ public class Tool extends JFrame implements ActionListener {
             //To do
         }
     }
-
-    public static void main(String[] args) {
-        Tool tool = new Tool("Test");
-        tool.setupGUI();
-    }
 }
