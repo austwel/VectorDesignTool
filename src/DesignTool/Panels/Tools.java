@@ -63,17 +63,17 @@ public class Tools extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
         if (src == btnFill) {
-
+            Main.startFill("#0000FF");
         } else if (src == btnLine) {
             Main.drawLine(0.2f, 0.2f, 0.8f, 0.8f);
         } else if (src == btnRect) {
-
+            Main.drawRectangle(0.2f, 0.2f, 0.8f, 0.8f);
         } else if (src == btnPlot) {
 
         } else if (src == btnEllipse) {
-
+            Main.drawEllipse(0.3f, 0.3f, 0.7f, 0.7f);
         } else if (src == btnPoly) {
-
+            Main.startFill("#0000FF");
         }
     }
 }

@@ -66,6 +66,8 @@ public class Main {
         tool.draw.changePen(Color.decode(color.substring(0, 7)));
     }
 
+    public static void changePenColor(Color color) { tool.draw.changePen(color); }
+
     public static void openVec() {
         newFile();
         JFileChooser fileChooser = new JFileChooser();

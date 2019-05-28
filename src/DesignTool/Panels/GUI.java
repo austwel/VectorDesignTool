@@ -15,7 +15,6 @@ public class GUI extends JFrame {
     public static float _scale = 400;
 
     private static BufferedImage buf;
-    private static Color _penColor = new Color(0, 0, 0);
 
     public DrawTool draw;
     private JPanel canvas;
@@ -30,7 +29,7 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setupGUI();
-        draw = new DrawTool(canvas, buf, _penColor, _scale);
+        draw = new DrawTool(canvas, buf, _scale);
         new KeybindHandler(canvas);
     }
 
@@ -50,7 +49,7 @@ public class GUI extends JFrame {
     }
 
     public void setupGUI() {
-        pnlColor = new ColorChooser(_penColor);
+        pnlColor = new ColorChooser(draw.getPenColor());
         pnlTools = new Tools();
         //History
         setJMenuBar(new MenuBar(pnlTools, pnlColor, pnlHistory));

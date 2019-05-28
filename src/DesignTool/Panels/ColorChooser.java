@@ -1,5 +1,6 @@
 package DesignTool.Panels;
 
+import DesignTool.Main;
 import DesignTool.Misc.DragHandler;
 
 import javax.swing.*;
@@ -28,6 +29,6 @@ public class ColorChooser extends JPanel implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        _penColor = colorChooser.getColor();
+        Main.changePenColor(colorChooser.getColor());
     }
 }
