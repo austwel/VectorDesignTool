@@ -78,4 +78,9 @@ public class DrawTool {
         _canvas.repaint();
     }
 
+    public void drawMouse(Color penColour){
+        this._penColor = penColour;
+
+    }
+
 }

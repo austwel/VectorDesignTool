@@ -42,9 +42,11 @@ public class GUI extends JFrame {
         layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
         layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
         layeredPane.setLayer(pnlColor, JLayeredPane.DRAG_LAYER);
+        layeredPane.setLayer(pnlHistory, JLayeredPane.DRAG_LAYER);
         layeredPane.add(pnlTools);
         layeredPane.add(canvas);
         layeredPane.add(pnlColor);
+        layeredPane.add(pnlHistory);
         repaint();
         setVisible(true);
     }
@@ -52,7 +54,7 @@ public class GUI extends JFrame {
     public void setupGUI() {
         pnlColor = new ColorChooser(_penColor);
         pnlTools = new Tools();
-        //History
+        pnlHistory = new History();
         setJMenuBar(new MenuBar(pnlTools, pnlColor, pnlHistory));
         setupLayers();
         buf = new Img();
