@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class DrawTool {
+public class DrawTool{
 
     private JPanel _canvas;
     private BufferedImage _buf;
@@ -76,11 +76,6 @@ public class DrawTool {
         }
         g.draw(new Polygon(xArray, yArray, values.size() / 2));
         _canvas.repaint();
-    }
-
-    public void drawMouse(Color penColour){
-        this._penColor = penColour;
-
     }
 
 }
