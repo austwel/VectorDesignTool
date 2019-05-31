@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class Main {
 
-    private static GUI tool;
-    private static Io io;
+    public static GUI tool;
+    public static Io io;
 
     private static ArrayList<String> history;
 
