@@ -13,9 +13,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class DrawMouse extends JPanel{
+public class DrawMouse extends JPanel implements MouseListener{
     private int x1, y1, x2, y2 = 0;
     private MouseListener listener;
+    private MouseListener toolsListen;
+    private MouseMotionListener toolsMotion;
     private MouseEvent e;
     private MouseMotionListener motion;
     private DrawTool tool;
@@ -51,7 +53,13 @@ public class DrawMouse extends JPanel{
         this.y2 = y2;
     }
 
+    @Override
     public void mousePressed (MouseEvent e){
+        setStartPoint(e.getX(), e.getY());
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e){
         setStartPoint(e.getX(), e.getY());
     }
 
@@ -59,16 +67,23 @@ public class DrawMouse extends JPanel{
         setEndPoint(e.getX(), e.getY());
     }
 
+    @Override
     public void mouseReleased (MouseEvent e){
         setEndPoint(e.getX(), e.getY());
     }
 
-    public void drawObject(MouseEvent mouseEvent){
-        mouse = new DrawMouse(listener, mouseEvent, motion);
-        listener = GUI._listener;
-        mouseEvent = e;
-        motion = GUI._motion;
-        Object src = mouseEvent.getButton();
+    @Override
+    public void mouseEntered(MouseEvent e){
+        setStartPoint(x1, y1);
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e){
+        setEndPoint(x2, y2);
+    }
+
+    /*public void drawObject(MouseEvent mouseEvent){
+        Object src = mouseEvent.getSource();
         int x1, y1, x2, y2 = 0;
         if (src == btnFill) {
             Main.startFill("#0000FF");
@@ -84,6 +99,7 @@ public class DrawMouse extends JPanel{
             x2 = mouseEvent.getX();
             y2 = mouseEvent.getY();
             _canvas.repaint();
+            //Main.drawLine(x1 * 0.2f, y1 * 0.2f, x2 * 0.8f, y2 * 0.8f);
             mouse.tool.drawLine(x1 * 0.2f, y1 * 0.2f, x2 * 0.8f, y2 * 0.8f);
         } else if (src == btnRect) {
             Main.drawRectangle(0.2f, 0.2f, 0.8f, 0.8f);
@@ -94,6 +110,6 @@ public class DrawMouse extends JPanel{
         } else if (src == btnPoly) {
             Main.startFill("#0000FF");
         }
-    }
-
+    }*/
+    
 }

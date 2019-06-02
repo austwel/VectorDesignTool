@@ -3,12 +3,14 @@ package DesignTool.Panels;
 import DesignTool.Misc.CustomPaintComponent;
 import DesignTool.Misc.DrawTool;
 import DesignTool.Misc.KeybindHandler;
+import DesignTool.Misc.DrawMouse;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseEvent;
 
 public class GUI extends JFrame {
 
@@ -25,8 +27,7 @@ public class GUI extends JFrame {
     public static JPanel _pnlColor;
     public static JPanel _pnlTools;
     public static JPanel _pnlHistory;
-    public static MouseListener _listener;
-    public static MouseMotionListener _motion;
+    public static JPanel _pnlCoords;
 
     public GUI() {
         super("Vector Design Tool");
@@ -36,6 +37,8 @@ public class GUI extends JFrame {
         setupGUI();
         draw = new DrawTool(_canvas, buf, _penColor, _scale);
         new KeybindHandler(_canvas);
+
+
     }
 
     public void setupLayers() {
@@ -43,16 +46,16 @@ public class GUI extends JFrame {
         _canvas = new JPanel(this.getLayout());
         _canvas.setBackground(Color.WHITE);
         _canvas.setBounds(250, 250, 401, 401);
-        _canvas.addMouseListener(_listener);
-        _canvas.addMouseMotionListener(_motion);
         _layeredPane.setLayer(_pnlTools, JLayeredPane.DRAG_LAYER);
         _layeredPane.setLayer(_canvas, JLayeredPane.DEFAULT_LAYER);
         _layeredPane.setLayer(_pnlColor, JLayeredPane.DRAG_LAYER);
         _layeredPane.setLayer(_pnlHistory, JLayeredPane.DRAG_LAYER);
+        _layeredPane.setLayer(_pnlCoords, JLayeredPane.DRAG_LAYER);
         _layeredPane.add(_pnlTools);
         _layeredPane.add(_canvas);
         _layeredPane.add(_pnlColor);
         _layeredPane.add(_pnlHistory);
+        _layeredPane.add(_pnlCoords);
         repaint();
         setVisible(true);
     }
@@ -61,7 +64,8 @@ public class GUI extends JFrame {
         _pnlColor = new ColorChooser(_penColor);
         _pnlTools = new Tools();
         _pnlHistory = new History();
-        setJMenuBar(new MenuBar(_pnlTools, _pnlColor, _pnlHistory));
+        _pnlCoords = new Coords();
+        setJMenuBar(new MenuBar(_pnlTools, _pnlColor, _pnlHistory, _pnlCoords));
         setupLayers();
         buf = new Img();
         _canvas.add(new CustomPaintComponent(buf));
