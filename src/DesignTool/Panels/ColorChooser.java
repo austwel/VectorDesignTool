@@ -30,6 +30,5 @@ public class ColorChooser extends JPanel implements ChangeListener {
     @Override
     public void stateChanged(ChangeEvent e) {
         Main.changePenColor(colorChooser.getColor());
-        _penColor = colorChooser.getColor();
     }
 }
