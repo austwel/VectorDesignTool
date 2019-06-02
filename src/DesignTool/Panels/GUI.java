@@ -7,6 +7,8 @@ import DesignTool.Misc.KeybindHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 public class GUI extends JFrame {
 
@@ -15,13 +17,16 @@ public class GUI extends JFrame {
     public static float _scale = 400;
 
     private static BufferedImage buf;
+    private static Color _penColor = new Color(0, 0, 0);
 
-    public DrawTool draw;
-    private JPanel canvas;
-    private JLayeredPane layeredPane;
-    private JPanel pnlColor;
-    private JPanel pnlTools;
-    private JPanel pnlHistory;
+    public static DrawTool draw;
+    private JPanel _canvas;
+    private JLayeredPane _layeredPane;
+    public static JPanel _pnlColor;
+    public static JPanel _pnlTools;
+    public static JPanel _pnlHistory;
+    public static MouseListener _listener;
+    public static MouseMotionListener _motion;
 
     public GUI() {
         super("Vector Design Tool");
@@ -29,34 +34,38 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setupGUI();
-        draw = new DrawTool(canvas, buf, _scale);
-        new KeybindHandler(canvas);
+        draw = new DrawTool(_canvas, buf, _scale);
+        new KeybindHandler(_canvas);
     }
 
     public void setupLayers() {
-        layeredPane = getLayeredPane();
-        canvas = new JPanel(this.getLayout());
-        canvas.setBackground(Color.WHITE);
-        canvas.setBounds(250, 250, 401, 401);
-        layeredPane.setLayer(pnlTools, JLayeredPane.DRAG_LAYER);
-        layeredPane.setLayer(canvas, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.setLayer(pnlColor, JLayeredPane.DRAG_LAYER);
-        layeredPane.add(pnlTools);
-        layeredPane.add(canvas);
-        layeredPane.add(pnlColor);
+        _layeredPane = getLayeredPane();
+        _canvas = new JPanel(this.getLayout());
+        _canvas.setBackground(Color.WHITE);
+        _canvas.setBounds(250, 250, 401, 401);
+        _canvas.addMouseListener(_listener);
+        _canvas.addMouseMotionListener(_motion);
+        _layeredPane.setLayer(_pnlTools, JLayeredPane.DRAG_LAYER);
+        _layeredPane.setLayer(_canvas, JLayeredPane.DEFAULT_LAYER);
+        _layeredPane.setLayer(_pnlColor, JLayeredPane.DRAG_LAYER);
+        _layeredPane.setLayer(_pnlHistory, JLayeredPane.DRAG_LAYER);
+        _layeredPane.add(_pnlTools);
+        _layeredPane.add(_canvas);
+        _layeredPane.add(_pnlColor);
+        _layeredPane.add(_pnlHistory);
         repaint();
         setVisible(true);
     }
 
     public void setupGUI() {
-        pnlColor = new ColorChooser(draw.getPenColor());
-        pnlTools = new Tools();
-        //History
-        setJMenuBar(new MenuBar(pnlTools, pnlColor, pnlHistory));
+        _pnlColor = new ColorChooser(draw.getPenColor());
+        _pnlTools = new Tools();
+        _pnlHistory = new History();
+        setJMenuBar(new MenuBar(_pnlTools, _pnlColor, _pnlHistory));
         setupLayers();
         buf = new Img();
-        canvas.add(new CustomPaintComponent(buf));
-        canvas.repaint();
+        _canvas.add(new CustomPaintComponent(buf));
+        _canvas.repaint();
         repaint();
     }
 }
