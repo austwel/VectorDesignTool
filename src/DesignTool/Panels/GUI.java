@@ -35,7 +35,7 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setupGUI();
-        draw = new DrawTool(_canvas, buf, _penColor, _scale);
+        draw = new DrawTool(_canvas, buf, _scale);
         new KeybindHandler(_canvas);
 
 
@@ -61,7 +61,7 @@ public class GUI extends JFrame {
     }
 
     public void setupGUI() {
-        _pnlColor = new ColorChooser(_penColor);
+        _pnlColor = new ColorChooser(draw.getPenColor());
         _pnlTools = new Tools();
         _pnlHistory = new History();
         _pnlCoords = new Coords();

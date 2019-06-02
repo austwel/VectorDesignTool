@@ -126,6 +126,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
             } else {
                 _coords.setVisible(false);
             }
+        } else if (src == menuExit) {
+            System.exit(1);
         }
     }
 }
