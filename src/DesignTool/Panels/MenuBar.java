@@ -13,17 +13,19 @@ public class MenuBar extends JMenuBar implements ActionListener {
     public JMenu menuFile, menuEdit, menuView;
     public JMenuItem menuNew, menuOpen, menuSave, menuExit;
     public JMenuItem menuUndo, menuRedo;
-    public JCheckBoxMenuItem menuTools, menuColor, menuHistory;
+    public JCheckBoxMenuItem menuTools, menuColor, menuHistory, menuCoords;
 
     private JPanel _tools;
     private JPanel _color;
     private JPanel _history;
+    private JPanel _coords;
 
 
-    public MenuBar(JPanel tools, JPanel color, JPanel history) {
+    public MenuBar(JPanel tools, JPanel color, JPanel history, JPanel coords) {
         _tools = tools;
         _color = color;
         _history = history;
+        _coords = coords;
 
         createFile();
         createEdit();
@@ -65,6 +67,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
         menuView.add(menuColor);
         menuView.addSeparator();
         menuHistory = createCheckBoxMenuItem("History", KeyEvent.VK_3, KeyEvent.VK_H, false);
+        menuCoords = createCheckBoxMenuItem("Coordinates", KeyEvent.VK_4, KeyEvent.VK_P, true);
+        menuView.add(menuCoords);
+        menuView.addSeparator();
         menuView.add(menuHistory);
         add(menuView);
     }
@@ -114,6 +119,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 _history.setVisible(true);
             } else {
                 _history.setVisible(false);
+            }
+        } else if (src == menuCoords) {
+            if (menuCoords.getState()) {
+                _coords.setVisible(true);
+            } else {
+                _coords.setVisible(false);
             }
         } else if (src == menuExit) {
             System.exit(1);

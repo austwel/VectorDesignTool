@@ -3,7 +3,6 @@ package DesignTool.Panels;
 import DesignTool.Misc.DragHandler;
 import DesignTool.Main;
 import DesignTool.Misc.DrawTool;
-import DesignTool.Misc.DrawMouse;
 import DesignTool.Panels.GUI;
 
 import javax.swing.*;
@@ -11,27 +10,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.security.Key;
 
-public class Tools extends JPanel{
+public class Tools extends JPanel implements ActionListener{
 
     private Dimension _dimension;
     private GridBagConstraints _constraints;
     public static JButton btnFill, btnLine, btnRect, btnPlot, btnEllipse, btnPoly;
-    public static ActionListener action;
-    private JPanel canvas;
-    private BufferedImage buf;
     private Color penColor;
     private float scale;
-    private MouseListener listener;
-    private MouseAdapter adapter;
-    private MouseEvent event;
+    private int x1, y1, x2, y2 = 0;
 
     public Tools() {
         _dimension = new Dimension(110, 50);
@@ -57,7 +46,7 @@ public class Tools extends JPanel{
         src.setText(text);
         src.setPreferredSize(_dimension);
         src.setMnemonic(keyEvent);
-        src.addActionListener(action);
+        src.addActionListener(this);
         add(src, _constraints);
         return src;
     }
@@ -76,36 +65,28 @@ public class Tools extends JPanel{
         _constraints.gridx++;
     }
 
-    //@Override
-    /*public void actionPerformed(ActionEvent e) {
-        DrawTool draw = new DrawTool(canvas, buf, penColor, scale);
-        DrawMouse mouse = new DrawMouse(listener, event, adapter);
-        listener = GUI._listener;
+    public void setCoords(int x1, int x2, int y1, int y2){
+        this.x1 = x1;
+        this.x2 = x2;
+        this.y1 = y1;
+        this.y2 = y2;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
         Object src = e.getSource();
-        int x1, y1, x2, y2 = 0;
         if (src == btnFill) {
             Main.startFill("#0000FF");
         } else if (src == btnLine) {
-            mouse.mousePressed(event);
-            x1 = event.getX();
-            y1 = event.getY();
-            mouse.mouseDragged(event);
-            x2 = event.getX();
-            y2 = event.getY();
-            canvas.repaint();
-            mouse.mouseReleased(event);
-            x2 = event.getX();
-            y2 = event.getY();
-            canvas.repaint();
-            draw.drawLine(x1 * 0.2f, y1 * 0.2f, x2 * 0.8f, y2 * 0.8f);
+            Main.drawLine(x1 * 0.2f, y1 * 0.2f, x2 * 0.8f, y2 * 0.8f);
         } else if (src == btnRect) {
             Main.drawRectangle(0.2f, 0.2f, 0.8f, 0.8f);
         } else if (src == btnPlot) {
-
+            Main.drawPlot(x1 * 0.2f, y1 * 0.2f);
         } else if (src == btnEllipse) {
             Main.drawEllipse(0.3f, 0.3f, 0.7f, 0.7f);
         } else if (src == btnPoly) {
             Main.startFill("#0000FF");
         }
-    }*/
+    }
 }
